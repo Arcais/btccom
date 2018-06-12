@@ -9,6 +9,7 @@
   "dependencies": {
     "vue": "^2.2.6",
     "vue-resource": "^1.5.1",
+    "vue2-filters": "^0.3.0",
     "vuex": "^2.2.1"
   },
   "devDependencies": {
@@ -33,6 +34,8 @@
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony",
     "vue-loader": "^11.3.3",
     "vue-template-compiler": "^2.2.6",
+    "vue-resource": "latest",
+    "vue2-filters": "latest",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2"
   }

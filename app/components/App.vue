@@ -1,71 +1,37 @@
 <template>
 
-  <div>
+  <div id="generalWrapper">
 
-    <!-- <button @click="loadOrders('sell',1,20)" class="uk-button uk-button-default">Test Button</button> -->
-    
-    <table class="uk-table uk-table-hover">
+    <div id="recentOrders">
       
-      <caption>Sell Orders</caption>
+      <h1>Orders ordered from most recent to least recent</h1>
+
+      <div class="orderWrapper">
+        
+        <order-list :orders="filterByLastNElements(sellOrders,20)" :title="'Sell Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
+
+        <order-list :orders="filterByLastNElements(buyOrders,20)" :title="'Buy Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
       
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Type</th>
-          <th>Quantity</th>
-          <th>Price</th>
-        </tr>
-      </thead>
+      </div>
 
-      <tbody>
-        <tr v-for="order in filterByLastNElements(sellOrders,20)">
-          <td>{{order.id}}</td>
-          <td>{{order.type}}</td>
-          <td>{{order.quantity}}</td>
-          <td>{{order.price}}</td>
-        </tr>
-      </tbody>
-
-    </table>
-    
-    <table class="uk-table uk-table-hover">
-      
-      <caption>Buy Orders</caption>
-      
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Type</th>
-          <th>Quantity</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="order in filterByLastNElements(buyOrders,20)">
-          <td>{{order.id}}</td>
-          <td>{{order.type}}</td>
-          <td>{{order.quantity}}</td>
-          <td>{{order.price}}</td>
-        </tr>
-      </tbody>
-
-    </table>
+    </div>
 
   </div>
 
 </template>
 
 <script>
-// import List from './List.vue';
+
+import OrderList from './OrderList.vue';
 import {mapState, mapActions} from 'vuex';
 
 export default {
   name: 'app',
   data() {
     return {
-      idList: [0,100]
-      // prevItemCount: 0
+      idList: [0,100],
+      prevItemCount: 0,
+      currItemCount: 0
     };
   },
   computed: {
@@ -75,6 +41,10 @@ export default {
     ...mapActions(['loadOrders']),
     filterByLastNElements: function(list, n){
       return list.slice(Math.max(list.length - n, 1)).reverse();
+    },
+    filterByPrice: function(list, n){
+      // return list.slice(Math.max(list.length - n, 1)).reverse();
+      return _.orderBy(list, 'price').slice(Math.max(list.length - n, 1));
     }
   },
   created: function () {
@@ -89,17 +59,41 @@ export default {
 
       this.loadOrders(this.idList);
 
-      // console.log(this.idList[0]-this.prevItemCount);
-      // this.prevItemCount = this.idList[0];
+      this.prevItemCount = this.currItemCount;
+
+      this.currItemCount = this.idList[0];
 
     }.bind(this), 1000); 
   },
   components: {
-    // List
+    OrderList
   }
 };
 </script>
 
 <style lang="scss" scoped>
+
+  #generalWrapper{
+    display:flex;
+    justify-content: space-around;    
+  }
+
+  .orderWrapper{
+    display:flex;
+    justify-content: space-around;
+    margin:50px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  #recentOrders{
+    width:50%;
+    text-align:center;
+  }
+
+  #highestPriceOrders{
+    width:50%;
+    text-align:center;    
+  }
 
 </style>
