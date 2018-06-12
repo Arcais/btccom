@@ -2,9 +2,26 @@
 
   <div id="generalWrapper">
 
+    <div id="highestPriceOrders">
+      
+      <h1>Orders by price</h1>
+
+      <div class="orderWrapper">
+        
+        <order-list :orders="limitBy(orderBy( sellOrders,'price', -1 ), 20)" :title="'Sell Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
+
+        <order-list :orders="limitBy(orderBy( buyOrders,'price' ), 20)" :title="'Buy Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
+
+
+        <!-- <order-list :orders="(buyOrders,20)" :title="'Buy Orders'" :lastKnownItemID="this.prevItemCount"></order-list> -->
+      
+      </div>
+
+    </div>
+
     <div id="recentOrders">
       
-      <h1>Orders ordered from most recent to least recent</h1>
+      <h1>Orders by most recent</h1>
 
       <div class="orderWrapper">
         
@@ -24,6 +41,7 @@
 
 import OrderList from './OrderList.vue';
 import {mapState, mapActions} from 'vuex';
+ 
 
 export default {
   name: 'app',
@@ -87,12 +105,12 @@ export default {
   }
 
   #recentOrders{
-    width:50%;
+    width:40%;
     text-align:center;
   }
 
   #highestPriceOrders{
-    width:50%;
+    width:40%;
     text-align:center;    
   }
 
