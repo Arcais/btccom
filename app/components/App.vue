@@ -12,6 +12,8 @@
 
       <order-board :sellFilter="limitBy(orderBy( sellOrders,'id', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'id', -1 ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"></order-board>
 
+      <match-board class="orderBoard"></match-board>
+
     </div>
 
   </div>
@@ -21,7 +23,8 @@
 <script>
 
 import OrderBoard from './OrderBoard.vue';
-import {mapState, mapActions} from 'vuex';
+import MatchBoard from './MatchBoard.vue';
+import {mapGetters, mapActions} from 'vuex';
  
 
 export default {
@@ -34,7 +37,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['orders','sellOrders','buyOrders'])
+    ...mapGetters(['orders','sellOrders','buyOrders'])
   },
   methods: {
     ...mapActions(['loadOrders'])
@@ -58,7 +61,8 @@ export default {
     }.bind(this), 1000); 
   },
   components: {
-    OrderBoard
+    OrderBoard,
+    MatchBoard
   }
 };
 </script>
@@ -66,7 +70,8 @@ export default {
 <style lang="scss" scoped>
 
   .mainWrapper{
-    background-color: #e6e9ee;  
+    background-color: #e6e9ee;
+    min-height:100vh; 
   }
 
   .header{
@@ -85,7 +90,7 @@ export default {
   }
 
   .orderBoard{
-    width:45%;
+    width:32%;
     text-align:center;    
   }
 

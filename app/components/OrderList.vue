@@ -14,7 +14,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="order in orders" v-bind:class="{'new': order.id>lastKnownItemID}">
+        <tr v-for="order in orders" v-bind:class="{'new': order.id>lastKnownItemID}" v-if="order.quantity>0">
           <td>{{order.id}}</td>
           <td>{{order.type}}</td>
           <td>{{order.quantity}}</td>
@@ -36,6 +36,10 @@ export default {
 <style lang="scss" scoped>
   caption{
     font-size:24px;
+    text-align: center;
+  }
+  th{
+    text-align: center;    
   }
   .new{
     transition:background-color 0.5s ease;
