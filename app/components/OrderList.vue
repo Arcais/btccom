@@ -37,9 +37,6 @@ export default {
   caption{
     font-size:24px;
   }
-  table{
-    width:40%;
-  }
   .new{
     transition:background-color 0.5s ease;
     background-color:#ffda79;

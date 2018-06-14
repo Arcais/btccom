@@ -1,35 +1,16 @@
 <template>
 
-  <div id="generalWrapper">
+  <div class="mainWrapper">
 
-    <div id="highestPriceOrders">
-      
-      <h1>Orders by price</h1>
-
-      <div class="orderWrapper">
-        
-        <order-list :orders="limitBy(orderBy( sellOrders,'price', -1 ), 20)" :title="'Sell Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
-
-        <order-list :orders="limitBy(orderBy( buyOrders,'price' ), 20)" :title="'Buy Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
-
-
-        <!-- <order-list :orders="(buyOrders,20)" :title="'Buy Orders'" :lastKnownItemID="this.prevItemCount"></order-list> -->
-      
-      </div>
-
+    <div class="header">
+      Welcome to a sample BTC order & match previewer!
     </div>
 
-    <div id="recentOrders">
-      
-      <h1>Orders by most recent</h1>
+    <div class="orderWrapper">
 
-      <div class="orderWrapper">
-        
-        <order-list :orders="filterByLastNElements(sellOrders,20)" :title="'Sell Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
+      <order-board :sellFilter="limitBy(orderBy( sellOrders,'price', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'price' ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by price'" class="orderBoard"></order-board>
 
-        <order-list :orders="filterByLastNElements(buyOrders,20)" :title="'Buy Orders'" :lastKnownItemID="this.prevItemCount"></order-list>
-      
-      </div>
+      <order-board :sellFilter="limitBy(orderBy( sellOrders,'id', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'id', -1 ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"></order-board>
 
     </div>
 
@@ -39,7 +20,7 @@
 
 <script>
 
-import OrderList from './OrderList.vue';
+import OrderBoard from './OrderBoard.vue';
 import {mapState, mapActions} from 'vuex';
  
 
@@ -56,14 +37,7 @@ export default {
     ...mapState(['orders','sellOrders','buyOrders'])
   },
   methods: {
-    ...mapActions(['loadOrders']),
-    filterByLastNElements: function(list, n){
-      return list.slice(Math.max(list.length - n, 1)).reverse();
-    },
-    filterByPrice: function(list, n){
-      // return list.slice(Math.max(list.length - n, 1)).reverse();
-      return _.orderBy(list, 'price').slice(Math.max(list.length - n, 1));
-    }
+    ...mapActions(['loadOrders'])
   },
   created: function () {
     setInterval(function () {
@@ -84,33 +58,34 @@ export default {
     }.bind(this), 1000); 
   },
   components: {
-    OrderList
+    OrderBoard
   }
 };
 </script>
 
 <style lang="scss" scoped>
 
-  #generalWrapper{
-    display:flex;
-    justify-content: space-around;    
+  .mainWrapper{
+    background-color: #e6e9ee;  
+  }
+
+  .header{
+    background-color: #3c78c2;
+    height:50px;
+    color:white;
+    font-family: sans-serif;
+    font-size:24px;
+    line-height:50px;
+    text-align: center;
   }
 
   .orderWrapper{
     display:flex;
     justify-content: space-around;
-    margin:50px;
-    margin-left:auto;
-    margin-right:auto;
   }
 
-  #recentOrders{
-    width:40%;
-    text-align:center;
-  }
-
-  #highestPriceOrders{
-    width:40%;
+  .orderBoard{
+    width:45%;
     text-align:center;    
   }
 
