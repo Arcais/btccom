@@ -7,7 +7,7 @@
     </h1>
 
     <div class="preloadWrapper" v-if="!sellFilter.length&&!buyFilter.length">
-      No orders yet!
+      <div uk-spinner="ratio: 3"></div>
     </div>
 
     <div class="orderWrapper" v-if="sellFilter.length||buyFilter.length">
@@ -62,8 +62,8 @@ export default {
   .preloadWrapper{
     width:100%;
     text-align:center;
-    font-size:26px;
-    color: #f1613e;
+    /*font-size:26px;*/
+    /*color: #f1613e;*/
   }
 
 </style>

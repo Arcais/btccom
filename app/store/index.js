@@ -35,35 +35,26 @@ export default new Vuex.Store({
 
         for(let i=0;i<res.body.length;i++){
 
-              // console.log(JSON.stringify(res.body[i].id));
-              // console.log(state.orders);
-
           let newItem = state.orders[res.body[i].id-1];
 
           for(let j=0;j<state.orders.length;j++){
             if(state.orders[j].type!=newItem.type && Math.abs(state.orders[j].price-newItem.price)<=5 && Math.min(newItem.quantity,state.orders[j].quantity)>0 ){
 
-              // console.log(JSON.stringify(state.orders[j]));
-              // console.log(JSON.stringify(newItem));
-
+              //Used JSON.parse(JSON.stringify(x)) in order to copy the value without the reference.
+              //Very bad hack, extends fixes it but I'd rather not import jquery. There are also other methods but this was the quickest.
               let match = {
                 id: state.matches.length,
-                sellMatch: newItem.type==='sell' ? newItem : state.orders[j],
-                buyMatch: newItem.type==='buy' ? newItem : state.orders[j],
+                sellMatch: newItem.type==='sell' ? JSON.parse(JSON.stringify(newItem)) : JSON.parse(JSON.stringify(state.orders[j])),
+                buyMatch: newItem.type==='buy' ? JSON.parse(JSON.stringify(newItem)) : JSON.parse(JSON.stringify(state.orders[j])),
                 quantity: Math.min(newItem.quantity,state.orders[j].quantity),
-                date: ( new Date( Date.now() ) ).toLocaleDateString('nl-NL'),
+                date: new Date( Date.now() ),
                 actionType: newItem.type
               } 
 
               state.matches.push(match);
 
-              // console.log(state.matches);
-
               state.orders[res.body[i].id-1].quantity = newItem.quantity-match.quantity;
               state.orders[j].quantity = state.orders[j].quantity-match.quantity;
-
-              // console.log(JSON.stringify(state.orders[j]));
-              // console.log(JSON.stringify(state.orders[res.body[i].id-1]));
 
 
               if(!state.orders[res.body[i].id-1].quantity){

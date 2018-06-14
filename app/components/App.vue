@@ -8,11 +8,11 @@
 
     <div class="orderWrapper">
 
-      <order-board :sellFilter="limitBy(orderBy( sellOrders,'price', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'price' ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by price'" class="orderBoard"></order-board>
+      <order-board :sellFilter="limitBy(orderBy( sellOrders,'price', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'price' ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by price'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></order-board>
 
-      <order-board :sellFilter="limitBy(orderBy( sellOrders,'id', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'id', -1 ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"></order-board>
+      <order-board :sellFilter="limitBy(orderBy( sellOrders,'id', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'id', -1 ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></order-board>
 
-      <match-board class="orderBoard"></match-board>
+      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></match-board>
 
     </div>
 
