@@ -25,6 +25,7 @@
       ></order-board>
 
       <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"
+      :matches            = "matches"
       :lastKnownItemID    = "this.prevItemCount"
       :orderCountInBoard  = "30"
       ></match-board>
@@ -40,7 +41,7 @@
 import OrderBoard from './OrderBoard.vue';
 import MatchBoard from './MatchBoard.vue';
 
-import {mapGetters, mapActions} from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'app',
@@ -52,7 +53,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['orders', 'sellOrders', 'buyOrders'])
+    ...mapGetters(['orders', 'sellOrders', 'buyOrders', 'matches'])
   },
   methods: {
     ...mapActions(['loadOrders'])
