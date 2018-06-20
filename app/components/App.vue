@@ -8,11 +8,11 @@
 
     <div class="orderWrapper">
 
-      <order-board :sellFilter="limitBy(orderBy( sellOrders,'price', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'price' ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by price'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></order-board>
+      <order-board :sellFilter="orderBy( sellOrders,'price', -1 )" :buyFilter="orderBy( buyOrders,'price' )" :lastKnownItemID="this.prevItemCount" :title="'Orders by price'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :orderCountInBoard="20"></order-board>
 
-      <order-board :sellFilter="limitBy(orderBy( sellOrders,'id', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'id', -1 ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></order-board>
+      <order-board :sellFilter="orderBy( sellOrders,'id', -1 )" :buyFilter="orderBy( buyOrders,'id', -1 )" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :orderCountInBoard="20"></order-board>
 
-      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :lastKnownItemID="this.prevItemCount"></match-board>
+      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :lastKnownItemID="this.prevItemCount" :orderCountInBoard="20"></match-board>
 
     </div>
 

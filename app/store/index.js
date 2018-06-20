@@ -14,15 +14,14 @@ export default new Vuex.Store({
     orders: state => state.orders,
     matches: state => state.matches,
     sellOrders: state => {
-      return state.orders.filter( order => order.type==='sell' );
+      return state.orders.filter( order => order.type==='sell' && order.quantity>0 );
     },
     buyOrders: state => {
-      return state.orders.filter( order => order.type==='buy' );
+      return state.orders.filter( order => order.type==='buy' && order.quantity>0 );
     }
   },
   actions:{
     loadOrders (context, idList){
-
       context.commit('loadOrders', idList);
     }
   },
@@ -56,8 +55,6 @@ export default new Vuex.Store({
 
               match.matchItems[newItemValue.type]=newItemValue;
               match.matchItems[selectedItemValue.type]=selectedItemValue;
-
-
 
               state.matches.push(match);
 

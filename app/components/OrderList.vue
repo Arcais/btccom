@@ -14,7 +14,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="order in orders" v-bind:class="{'new': order.id>lastKnownItemID}" v-if="order.quantity>0">
+        <tr v-for="order in limitBy(orders, orderCountInBoard)" v-bind:class="{'new': order.id>lastKnownItemID}">
           <td>{{order.id}}</td>
           <td>{{order.type}}</td>
           <td>{{order.quantity}}</td>
@@ -29,7 +29,7 @@
 <script>
 export default {
   name: 'orderlist',
-  props: ['orders','title','lastKnownItemID']
+  props: ['orders','title','lastKnownItemID','orderCountInBoard']
 };
 </script>
 

@@ -12,9 +12,9 @@
 
     <div class="orderWrapper" v-if="sellFilter.length||buyFilter.length">
 
-      <order-list :orders="sellFilter" :title="'Sell Orders'" :lastKnownItemID="lastKnownItemID" class="orderList"></order-list>
+      <order-list :orders="sellFilter" :title="'Sell Orders'" :lastKnownItemID="lastKnownItemID" :orderCountInBoard="orderCountInBoard" class="orderList"></order-list>
 
-      <order-list :orders="buyFilter" :title="'Buy Orders'" :lastKnownItemID="lastKnownItemID" class="orderList"></order-list>
+      <order-list :orders="buyFilter" :title="'Buy Orders'" :lastKnownItemID="lastKnownItemID" :orderCountInBoard="orderCountInBoard" class="orderList"></order-list>
 
     </div>
       
@@ -28,7 +28,7 @@ import OrderList from './OrderList.vue';
 
 export default {
   name: 'orderboard',
-  props: ['sellFilter','buyFilter','lastKnownItemID','title'],
+  props: ['sellFilter','buyFilter','lastKnownItemID','title','orderCountInBoard'],
   components: {
     OrderList
   }

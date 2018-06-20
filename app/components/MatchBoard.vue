@@ -25,7 +25,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="match in limitBy( orderBy( matches, 'id', -1 ), 20)" v-bind:style="{height: match.id===clickedItem ? '350px' : 'auto'}" v-on:click="clickedItem==match.id ? clickedItem = -1 : clickedItem = match.id" v-bind:class="{'new': match.matchItems[match.actionType].id>lastKnownItemID}">
+        <tr v-for="match in limitBy( orderBy( matches, 'id', -1 ), orderCountInBoard)" v-bind:style="{height: match.id===clickedItem ? '350px' : 'auto'}" v-on:click="clickedItem==match.id ? clickedItem = -1 : clickedItem = match.id" v-bind:class="{'new': match.matchItems[match.actionType].id>lastKnownItemID}">
           <td style="width:100px">{{match.date.toLocaleDateString('nl-NL')}}<br>{{match.date.toLocaleTimeString('nl-NL')}}</td>
           <td>{{match.quantity}}</td>
           <!-- This COULD be cleaner but I'll leave it like this for now -->
@@ -120,7 +120,7 @@ export default {
   computed: {
     ...mapGetters(['matches'])
   },
-  props: ['lastKnownItemID'],
+  props: ['lastKnownItemID','orderCountInBoard'],
   watch: {
     matches: function (matches) {
       this.prevId = this.currentId;
