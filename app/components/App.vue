@@ -12,7 +12,7 @@
 
       <order-board :sellFilter="limitBy(orderBy( sellOrders,'id', -1 ), 20)" :buyFilter="limitBy(orderBy( buyOrders,'id', -1 ), 20)" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></order-board>
 
-      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"></match-board>
+      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :lastKnownItemID="this.prevItemCount"></match-board>
 
     </div>
 

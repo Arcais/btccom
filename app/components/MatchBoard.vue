@@ -25,11 +25,11 @@
       </thead>
 
       <tbody>
-        <tr v-for="match in limitBy( orderBy( matches, 'id', -1 ), 20)" v-bind:style="{height: match.id===clickedItem ? '350px' : 'auto'}" v-on:click="clickedItem==match.id ? clickedItem = -1 : clickedItem = match.id" v-bind:class="{'new': match.id>prevId}">
+        <tr v-for="match in limitBy( orderBy( matches, 'id', -1 ), 20)" v-bind:style="{height: match.id===clickedItem ? '350px' : 'auto'}" v-on:click="clickedItem==match.id ? clickedItem = -1 : clickedItem = match.id" v-bind:class="{'new': match.matchItems[match.actionType].id>lastKnownItemID}">
           <td style="width:100px">{{match.date.toLocaleDateString('nl-NL')}}<br>{{match.date.toLocaleTimeString('nl-NL')}}</td>
           <td>{{match.quantity}}</td>
           <!-- This COULD be cleaner but I'll leave it like this for now -->
-          <td>Order #{{ match.actionType==='sell' ? match.sellMatch.id : match.buyMatch.id }} {{ match.actionType==='sell' ? 'sold to' : 'bought from' }} #{{ match.actionType==='buy' ? match.sellMatch.id : match.buyMatch.id }}: {{ match.quantity }} units worth ${{ ( ( match.sellMatch.price + match.buyMatch.price ) / 2 )*match.quantity }} </td>
+          <td>Order #{{ match.actionType==='sell' ? match.matchItems['sell'].id : match.matchItems['buy'].id }} {{ match.actionType==='sell' ? 'sold to' : 'bought from' }} #{{ match.actionType==='buy' ? match.matchItems['sell'].id : match.matchItems['buy'].id }}: {{ match.quantity }} units worth ${{ ( ( match.matchItems['sell'].price + match.matchItems['buy'].price ) / 2 )*match.quantity }} </td>
 
           <div class="extraInfo uk-card" v-show="match.id===clickedItem">
             <div class="infoDesc">
@@ -37,9 +37,9 @@
               <div class="uk-card-body">
                 
                 <div class="generalInfo">
-                  Price of transaction: ${{ ( match.sellMatch.price + match.buyMatch.price ) / 2 }}<br>
+                  Price of transaction: ${{ ( match.matchItems['sell'].price + match.matchItems['buy'].price ) / 2 }}<br>
                   Match made when the {{ match.actionType }} order was received<br>
-                  {{ match.actionType === 'sell' ? match.sellMatch.quantity-match.quantity : match.buyMatch.quantity-match.quantity }} units left to be {{ match.actionType === 'sell' ? 'sold' : 'bought' }} after the transaction.
+                  {{ match.actionType === 'sell' ? match.matchItems['sell'].quantity-match.quantity : match.matchItems['buy'].quantity-match.quantity }} units left to be {{ match.actionType === 'sell' ? 'sold' : 'bought' }} after the transaction.
                 </div>
 
                 <div class="tableList">
@@ -58,9 +58,9 @@
 
                     <tbody>
                       <tr>
-                        <td>{{match.sellMatch.id}}</td>
-                        <td>{{match.sellMatch.quantity}}</td>
-                        <td>{{match.sellMatch.price}}</td>
+                        <td>{{match.matchItems['sell'].id}}</td>
+                        <td>{{match.matchItems['sell'].quantity}}</td>
+                        <td>{{match.matchItems['sell'].price}}</td>
                       </tr>
                     </tbody>
 
@@ -80,9 +80,9 @@
 
                     <tbody>
                       <tr>
-                        <td>{{match.buyMatch.id}}</td>
-                        <td>{{match.buyMatch.quantity}}</td>
-                        <td>{{match.buyMatch.price}}</td>
+                        <td>{{match.matchItems['buy'].id}}</td>
+                        <td>{{match.matchItems['buy'].quantity}}</td>
+                        <td>{{match.matchItems['buy'].price}}</td>
                       </tr>
                     </tbody>
 
@@ -120,10 +120,14 @@ export default {
   computed: {
     ...mapGetters(['matches'])
   },
+  props: ['lastKnownItemID'],
   watch: {
     matches: function (matches) {
       this.prevId = this.currentId;
       this.currentId = matches.length-1;
+
+      // console.log(match.matchItems[match.actionType].id);
+      // console.log(lastKnownItemID);
 
       //VERY bad solution but this filter plugin is driving me mad and i want to get over with it
       // let self = this;
@@ -232,6 +236,10 @@ export default {
   .generalInfo{
     padding:15px;
     line-height:30px;
+  }
+  .new{
+    transition:background-color 0.5s ease;
+    background-color:#ffda79;
   }
 
 </style>

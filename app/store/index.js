@@ -44,12 +44,20 @@ export default new Vuex.Store({
               //Very bad hack, extends fixes it but I'd rather not import jquery. There are also other methods but this was the quickest.
               let match = {
                 id: state.matches.length,
-                sellMatch: newItem.type==='sell' ? JSON.parse(JSON.stringify(newItem)) : JSON.parse(JSON.stringify(state.orders[j])),
-                buyMatch: newItem.type==='buy' ? JSON.parse(JSON.stringify(newItem)) : JSON.parse(JSON.stringify(state.orders[j])),
                 quantity: Math.min(newItem.quantity,state.orders[j].quantity),
                 date: new Date( Date.now() ),
                 actionType: newItem.type
-              } 
+              }
+
+              let newItemValue = Object.assign({},newItem);
+              let selectedItemValue = Object.assign({},state.orders[j]);
+
+              match.matchItems = {};
+
+              match.matchItems[newItemValue.type]=newItemValue;
+              match.matchItems[selectedItemValue.type]=selectedItemValue;
+
+
 
               state.matches.push(match);
 
