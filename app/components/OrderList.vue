@@ -29,7 +29,12 @@
 <script>
 export default {
   name: 'orderlist',
-  props: ['orders','title','lastKnownItemID','orderCountInBoard']
+  props: [
+  'title',
+  'orders',
+  'lastKnownItemID',
+  'orderCountInBoard'
+  ]
 };
 </script>
 

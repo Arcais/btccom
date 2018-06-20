@@ -6,15 +6,25 @@
       {{title}}
     </h1>
 
-    <div class="preloadWrapper" v-if="!sellFilter.length&&!buyFilter.length">
+    <div class="preloadWrapper" v-if="!sellFilter.length && !buyFilter.length">
       <div uk-spinner="ratio: 3"></div>
     </div>
 
-    <div class="orderWrapper" v-if="sellFilter.length||buyFilter.length">
+    <div class="orderWrapper" v-if="sellFilter.length || buyFilter.length">
 
-      <order-list :orders="sellFilter" :title="'Sell Orders'" :lastKnownItemID="lastKnownItemID" :orderCountInBoard="orderCountInBoard" class="orderList"></order-list>
+      <order-list class="orderList"
+      :title="'Sell Orders'"
+      :orders="sellFilter"
+      :lastKnownItemID="lastKnownItemID"
+      :orderCountInBoard="orderCountInBoard"
+      ></order-list>
 
-      <order-list :orders="buyFilter" :title="'Buy Orders'" :lastKnownItemID="lastKnownItemID" :orderCountInBoard="orderCountInBoard" class="orderList"></order-list>
+      <order-list class="orderList"
+      :title="'Buy Orders'"
+      :orders="buyFilter"
+      :lastKnownItemID="lastKnownItemID"
+      :orderCountInBoard="orderCountInBoard"
+      ></order-list>
 
     </div>
       
@@ -28,7 +38,13 @@ import OrderList from './OrderList.vue';
 
 export default {
   name: 'orderboard',
-  props: ['sellFilter','buyFilter','lastKnownItemID','title','orderCountInBoard'],
+  props: [
+  'title',
+  'sellFilter',
+  'buyFilter',
+  'lastKnownItemID',
+  'orderCountInBoard'
+  ],
   components: {
     OrderList
   }

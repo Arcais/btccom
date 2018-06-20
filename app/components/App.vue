@@ -8,11 +8,26 @@
 
     <div class="orderWrapper">
 
-      <order-board :sellFilter="orderBy( sellOrders,'price', -1 )" :buyFilter="orderBy( buyOrders,'price' )" :lastKnownItemID="this.prevItemCount" :title="'Orders by price'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :orderCountInBoard="20"></order-board>
+      <order-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"
+      :title              = "'Orders by price'"
+      :sellFilter         = "orderBy( sellOrders, 'price', -1 )" 
+      :buyFilter          = "orderBy( buyOrders, 'price' )" 
+      :lastKnownItemID    = "this.prevItemCount" 
+      :orderCountInBoard  = "20"
+      ></order-board>
 
-      <order-board :sellFilter="orderBy( sellOrders,'id', -1 )" :buyFilter="orderBy( buyOrders,'id', -1 )" :lastKnownItemID="this.prevItemCount" :title="'Orders by most recent'" class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :orderCountInBoard="20"></order-board>
+      <order-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"
+      :title              = "'Orders by most recent'"
+      :sellFilter         = "orderBy( sellOrders, 'id', -1 )" 
+      :buyFilter          = "orderBy( buyOrders, 'id', -1 )" 
+      :lastKnownItemID    = "this.prevItemCount" 
+      :orderCountInBoard  = "20"
+      ></order-board>
 
-      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom" :lastKnownItemID="this.prevItemCount" :orderCountInBoard="20"></match-board>
+      <match-board class="orderBoard"  uk-scrollspy="cls:uk-animation-slide-bottom"
+      :lastKnownItemID    = "this.prevItemCount"
+      :orderCountInBoard  = "30"
+      ></match-board>
 
     </div>
 
@@ -24,8 +39,8 @@
 
 import OrderBoard from './OrderBoard.vue';
 import MatchBoard from './MatchBoard.vue';
+
 import {mapGetters, mapActions} from 'vuex';
- 
 
 export default {
   name: 'app',
@@ -37,14 +52,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['orders','sellOrders','buyOrders'])
+    ...mapGetters(['orders', 'sellOrders', 'buyOrders'])
   },
   methods: {
     ...mapActions(['loadOrders'])
   },
   created: function () {
+
+    // Polling interval on every second that calls the store to update the data based on the back-end.
     setInterval(function () {
 
+      // Once orders is filled, change the id interval. Used 100 arbitrarily as a maximum interval margin.
       if(this.orders[this.orders.length-1]){
 
         this.idList[0]=this.orders[this.orders.length-1].id;
@@ -52,13 +70,17 @@ export default {
 
       }
 
+      // Call the store with the id interval from above.
       this.loadOrders(this.idList);
 
-      this.prevItemCount = this.currItemCount;
+      // Remember the last item (or the first item at the start of the cycle) added for updating purposes.
+      this.prevItemCount = this.currItemCount || 0;
 
+      // The latest item added will be remembered.
       this.currItemCount = this.idList[0];
 
-    }.bind(this), 1000); 
+    }.bind(this), 1000);
+
   },
   components: {
     OrderBoard,
@@ -68,6 +90,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+  body {
+    margin: 0;
+    font-family: sans-serif;
+  }
 
   .mainWrapper{
     background-color: #e6e9ee;
